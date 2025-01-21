@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Package</title>
+</head>
+<body>
+    <h1>Ship a Package</h1>
+    <form method="POST" action="{{ url_for('new_package') }}">
+        {{ form.csrf_token }}
+        <div>
+            {{ form.sender_name.label }}
+            {{ form.sender_name }}
+            {% if form.sender_name.errors %}
+                {% for error in form.sender_name.errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div>
+            {{ form.recipient_name.label }}
+            {{ form.recipient_name }}
+            {% if form.recipient_name.errors %}
+                {% for error in form.recipient_name.errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div>
+            {{ form.origin.label }}
+            {{ form.origin }}
+            {% if form.origin.errors %}
+                {% for error in form.origin.errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div>
+            {{ form.destination.label }}
+            {{ form.destination }}
+            {% if form.destination.errors %}
+                {% for error in form.destination.errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div>
+            {{ form.express_shipping.label }}
+            {{ form.express_shipping }}
+        </div>
+        <div>
+            {{ form.submit }}
+            {{ form.cancel }}
+        </div>
+    </form>
+</body>
+</html>

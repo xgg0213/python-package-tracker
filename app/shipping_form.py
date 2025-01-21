@@ -3,13 +3,11 @@ from wtforms import StringField, SelectField, BooleanField, SubmitField
 from wtforms.validators import DataRequired
 from map.map import map
 
-class shipping_form(FlaskForm):
-    name_sender=StringField("Sender Name", validators=[DataRequired()])
-    name_recipient=StringField("Recipient Name", validators=[DataRequired()])
-    origin=SelectField("Origin",
-        choices=[("", "Option 1"), ("option2", "Option 2"), ("option3", "Option 3")],)
-    destination=SelectField("Destination", validators=[DataRequired()])
-    express=BooleanField()
-
-    submit=SubmitField("Submit")
-    cancel=SubmitField("Cancel")
+class ShippingForm(FlaskForm):
+    sender_name = StringField('Sender Name', validators=[DataRequired()])
+    recipient_name = StringField('Recipient Name', validators=[DataRequired()])
+    origin = SelectField('Origin', choices=[(city, city) for city in map.keys()], validators=[DataRequired()])
+    destination = SelectField('Destination', choices=[(city, city) for city in map.keys()], validators=[DataRequired()])
+    express_shipping = BooleanField('Express Shipping')
+    submit = SubmitField('Submit')
+    cancel = SubmitField('Cancel')
