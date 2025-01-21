@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Package Status</title>
+    <style>
+        .active-filter {
+            font-weight: bold;
+            color: #0066cc;
+        }
+    </style>
+</head>
+<body>
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h1>Package Status</h1>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+    <p>Welcome, {{ current_user.username }}!</p>
+    <a href="{{ url_for('new_package') }}">Ship New Package</a>
+    
+    <!-- Filter Controls -->
+    <div style="margin: 20px 0;">
+        <div>
+            <strong>View:</strong>
+            <a href="{{ url_for('root', filter='all', sort=sort_by) }}" 
+               class="{{ 'active-filter' if filter_by == 'all' }}">All Packages</a> |
+            <a href="{{ url_for('root', filter='delivered', sort=sort_by) }}"
+               class="{{ 'active-filter' if filter_by == 'delivered' }}">Delivered</a> |
+            <a href="{{ url_for('root', filter='in_transit', sort=sort_by) }}"
+               class="{{ 'active-filter' if filter_by == 'in_transit' }}">In Transit</a>
+        </div>
+
+        <div style="margin-top: 10px;">
+            <strong>Order by:</strong>
+            <a href="{{ url_for('root', sort='id', filter=filter_by) }}"
+               class="{{ 'active-filter' if sort_by == 'id' }}">Package ID</a> |
+            <a href="{{ url_for('root', sort='sender', filter=filter_by) }}"
+               class="{{ 'active-filter' if sort_by == 'sender' }}">Sender Name</a> |
+            <a href="{{ url_for('root', sort='recipient', filter=filter_by) }}"
+               class="{{ 'active-filter' if sort_by == 'recipient' }}">Recipient Name</a> |
+            <a href="{{ url_for('root', sort='location', filter=filter_by) }}"
+               class="{{ 'active-filter' if sort_by == 'location' }}">Current Location</a>
+        </div>
+    </div>
+    
+    <!-- Packages List -->
+    <div class="packages">
+        {% for package in packages %}
+        <div class="package">
+            <p>Package ID: {{ package.id }}</p>
+            <p>Sender: {{ package.sender }}</p>
+            <p>Recipient: {{ package.recipient }}</p>
+            <p>Origin: {{ package.origin }}</p>
+            <p>Destination: {{ package.destination }}</p>
+            <p>Current Location: {{ package.location }}</p>
+            <form action="{{ url_for('delete_package', id=package.id) }}" method="POST" 
+                  style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this package?');">
+                {{ form.csrf_token }}
+                <button type="submit" style="color: red; border: 1px solid red;">Delete Package</button>
+            </form>
+        </div>
+        <hr>
+        {% endfor %}
+    </div>
+</body>
+</html> 
